@@ -1,10 +1,15 @@
 const readline = require('readline-sync');//biblioteca para receber o input do usuario
+const robots={
+	text: require('./robot/text.js')
+}
 
-function start(){
+async function start(){
 	const content = {}
 	//-----executando as funções----
-	content.searcheTerm = askAndReturnSearchTerm();
+	content.searchTerm = askAndReturnSearchTerm();
 	content.prefixe = askAndReturnPrefix();
+
+	await robots.text(content);
 	//------------------------------
 
 	function askAndReturnSearchTerm(){//função para definir o tema do video

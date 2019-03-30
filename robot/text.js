@@ -6,19 +6,22 @@ const watsonApiKey = require('../credentials/watson.json').apiKey;
  
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js')
  
-var nlu = new NaturalLanguageUnderstandingV1({
+const nlu = new NaturalLanguageUnderstandingV1({
 	iam_apikey: "y6i6wbnMJwBovDtYa2GrwTiQXwGJBwE-IgJLAlm_VefZ",
   	version: '2018-04-05',
   	url: 'https://gateway.watsonplatform.net/natural-language-understanding/api/'
-})
+});
 
+const state = require('./state.js');
 
-async function robot(content){
+async function robot(){
+	const content = state.load();
 	await fetchContentFromWikipedia(content);
 	sanitizeContent(content);
 	breakContentIntoSentences(content);
 	limitMaximumSentences(content);
 	await fetchKeywordsOfAllSentences(content);
+	state.save(content);
  
 	async function fetchContentFromWikipedia(content) {
 	    	const algorithmiaAuthenticated = algorithmia('simNamEs9PVGryBRDxPCrDZzlM/1');//autentica o usuario
